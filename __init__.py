@@ -19,6 +19,29 @@ jwt = JWTManager(app)
 
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
 
+
+@app.route('/login', methods=['POST'])
+def login():
+    username = request.json.get('username')
+    password = request.json.get('password')
+
+    # Authentification simulée
+    if username == 'admin' and password == 'adminpass':
+        access_token = create_access_token(
+            identity=username,
+            additional_claims={'role': 'admin'}
+        )
+        return jsonify(access_token=access_token), 200
+
+    elif username == 'user' and password == 'userpass':
+        access_token = create_access_token(
+            identity=username,
+            additional_claims={'role': 'user'}
+        )
+        return jsonify(access_token=access_token), 200
+
+    return jsonify({"msg": "Bad credentials"}), 401
+
 @app.route('/')
 def hello_world():
     return render_template('accueil.html')
