@@ -3,13 +3,13 @@ from flask import render_template
 from flask import json
 from flask import jsonify
 from flask import request
-# from datetime import timedelta
+from datetime import timedelta
 
-# from flask_jwt_extended import create_access_token
-# from flask_jwt_extended import get_jwt_identity
-# from flask_jwt_extended import jwt_required
-# from flask_jwt_extended import JWTManager
-# from flask_jwt_extended import get_jwt
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
+from flask_jwt_extended import JWTManager
+from flask_jwt_extended import get_jwt
                                                                                                                                      
 app = Flask(__name__)                                                                                                                  
                                                                                                                                        
@@ -18,7 +18,7 @@ app.config["JWT_SECRET_KEY"] = "Ma_clé_secrete"  # Ma clée privée
 jwt = JWTManager(app)
 
 # le TOKEN valide pendant 1 heure
-# app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
 
 @app.route('/admin', methods=['GET'])
 @jwt_required()
@@ -50,8 +50,8 @@ def login():
 
     return jsonify({"msg": "Bad credentials"}), 401
 
-# app.config["JWT_SECRET_KEY"] = "votre_clé_secrète"
-# jwt = JWTManager(app)
+app.config["JWT_SECRET_KEY"] = "votre_clé_secrète"
+jwt = JWTManager(app)
 
 @app.route('/')
 def hello_world():
